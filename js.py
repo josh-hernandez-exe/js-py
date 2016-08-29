@@ -1,6 +1,26 @@
 class JSObject(object):
+
     def __init__(self, *args, **kwargs):
-        for arg in args:
+
+        argtemp = []
+
+        for item in args:
+            if isinstance(item, dict):
+                kwargs.update(item)
+            else:
+                argtemp.append(item)
+
+        argtemp = (
+            (key,JSObject(**value) if isinstance(value,dict) else value)
+            for key,value in argtemp
+        )
+
+        kwargs = {
+            key:JSObject(**value) if isinstance(value,dict) else value
+            for key,value in kwargs.items()
+        }
+
+        for arg in argtemp:
             self.__dict__.update(arg)
 
         self.__dict__.update(kwargs)
