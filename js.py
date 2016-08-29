@@ -1,3 +1,5 @@
+import pdb
+
 class JSObject(object):
 
     def __init__(self, *args, **kwargs):
@@ -5,25 +7,41 @@ class JSObject(object):
         argtemp = []
 
         for item in args:
-            if isinstance(item, dict):
+            if issubclass(item.__class__, dict):
                 kwargs.update(item)
             else:
                 argtemp.append(item)
 
-        argtemp = (
-            (key,JSObject(**value) if isinstance(value,dict) else value)
-            for key,value in argtemp
-        )
-
-        kwargs = {
-            key:JSObject(**value) if isinstance(value,dict) else value
-            for key,value in kwargs.items()
-        }
-
-        for arg in argtemp:
-            self.__dict__.update(arg)
-
         self.__dict__.update(kwargs)
+
+        for key,value in enumerate(argtemp):
+            if self.__dict__.has_key(key):
+                raise KeyError("Duplicate keys are being inserted from args.")
+            else:
+                self.__dict__.update((key,value))
+
+        self._recursive_dict_constructor(self.__dict__)
+
+    def _recursive_dict_constructor(self,object_=None):
+        try:
+            for key,value in object_.items():
+                self._recusive_helper_constructor(object_,key,value)
+        except TypeError, te:
+            pass
+
+    def _recursive_list_constructor(self,object_=None):
+        try:
+            for key,value in enumerate(object_):
+                self._recusive_helper_constructor(object_,key,value)
+        except TypeError, te:
+            pass
+
+    def _recusive_helper_constructor(self,object_,key,value):
+        value_class = value.__class__
+        if issubclass(value_class, dict):
+            object_[key] = JSObject(value)
+        elif issubclass(value_class,(list,tuple)):
+            self._recursive_list_constructor(value)
 
     def __getitem__(self, name):
         return self.__dict__.get(name, None)
