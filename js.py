@@ -52,3 +52,9 @@ class JSObject(object):
 
     def __str__(self):
         return self.__dict__.__str__()
+
+    def __eq__(self,other):
+        if not isinstance(other, JSObject):
+            return False
+
+        return self.__dict__ == other.__dict__
