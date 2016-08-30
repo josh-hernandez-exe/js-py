@@ -1,4 +1,4 @@
-import pdb
+import six
 
 class JSObject(object):
 
@@ -24,7 +24,7 @@ class JSObject(object):
 
     def _recursive_dict_constructor(self,object_=None):
         try:
-            for key,value in object_.items():
+            for key,value in six.iteritems(object_):
                 self._recusive_helper_constructor(object_,key,value)
         except TypeError, te:
             pass
@@ -76,3 +76,18 @@ class JSObject(object):
             return False
 
         return self.__dict__ == other.__dict__
+
+    def __iter__(self):
+        return self.__dict__.__iter__()
+
+    def keys(self,**kwargs):
+        return six.iterkeys(self.__dict__,**kwargs)
+
+    def values(self,**kwargs):
+        return six.itervalues(self.__dict__,**kwargs)
+
+    def items(self,**kwargs):
+        return six.iteritems(self.__dict__,**kwargs)
+
+    def __contains__(self,item):
+        return self.__dict__.__contains__(item)
