@@ -8,7 +8,7 @@ The class will take in a nested object `dict`, or `list` (the output of a `json.
 
 ```python
 import json
-from js import JSObject
+from pyjs import JSObject
 
 converted_json = json.loads(
     '{ "test" : { "thing" : 1 } , "other":2, "stuff": [4,5,6,7,8]}'
@@ -36,7 +36,7 @@ print(myjso.stuff[3]) # 7
 ### Example 2
 
 ```python
-from js import JSObject
+from pyjs import JSObject
 
 myjso = JSObject({
     "test" : { "thing" : 1 },
