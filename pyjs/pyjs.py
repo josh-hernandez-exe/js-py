@@ -77,17 +77,21 @@ class JSObject(object):
 
         return self.__dict__ == other.__dict__
 
-    def __iter__(self):
-        return self.__dict__.__iter__()
-
-    def keys(self,**kwargs):
-        return six.iterkeys(self.__dict__,**kwargs)
-
-    def values(self,**kwargs):
-        return six.itervalues(self.__dict__,**kwargs)
-
-    def items(self,**kwargs):
-        return six.iteritems(self.__dict__,**kwargs)
-
     def __contains__(self,item):
         return self.__dict__.__contains__(item)
+
+    def __iter__(self):
+        return self.keys_()
+
+    def keys_(self,**kwargs):
+        for key in six.iterkeys(self.__dict__,**kwargs):
+            if not key.startswith("_") or not not key.endswith("_"):
+                yield key
+
+    def values_(self,**kwargs):
+        for key in self.keys_(**kwargs):
+            yield self[key]
+
+    def items_(self,**kwargs):
+        for key in self.keys_(**kwargs):
+            yield key,self[key]
