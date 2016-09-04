@@ -39,7 +39,7 @@ class JSObject(object):
     def _recusive_helper_constructor(self,object_,key,value):
         value_class = value.__class__
         if issubclass(value_class, dict):
-            object_[key] = JSObject(value)
+            object_[key] = self.__class__(value)
         elif issubclass(value_class,(list,tuple)):
             self._recursive_list_constructor(value)
 
