@@ -95,3 +95,27 @@ class JSObject(object):
     def items_(self,**kwargs):
         for key in self.keys_(**kwargs):
             yield key,self[key]
+
+    def get_prop_chain_(self,*args,**kwargs):
+
+        default_value=kwargs.get("default_value",None)
+        raise_missing=kwargs.get("raise_missing",False)
+
+        cur_instance = self
+        for key in args:
+
+            if isinstance(cur_instance, (JSObject,dict)) and key in cur_instance:
+                cur_instance = cur_instance[key]
+
+            elif isinstance(cur_instance, (tuple,list)) and 0 <= key <= len(cur_instance):
+                cur_instance = cur_instance[key]
+
+            else:
+                if raise_missing:
+                    raise Exception("Missing property {property} in property chain {chain}".format(
+                        property=str(key),
+                        chain=str(args),
+                    ))
+                return default_value
+
+        return cur_instance
