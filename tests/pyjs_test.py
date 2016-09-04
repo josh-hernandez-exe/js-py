@@ -33,20 +33,17 @@ class TestJSObject(unittest.TestCase):
 
         xx = self.make_object()
 
-        self.assertTrue(xx.test.thing==1)
-        self.assertTrue(xx.other==2)
-        self.assertTrue(xx.stuff[0]==5)
-        self.assertTrue(xx.stuff[1].blah=="mine")
+        self.assertEquals(xx.test.thing,1)
+        self.assertEquals(xx.other,2)
+        self.assertEquals(xx.stuff[0],5)
+        self.assertEquals(xx.stuff[1].blah,"mine")
 
 
     def test_property_chain(self):
         xx = self.make_object()
 
-        print "Hey"
-        print xx.get_prop_chain_("test","thing",raise_missing=True)
-        print "Bye"
-        self.assertTrue(xx.get_prop_chain_("test","thing",raise_missing=True)==1)
-        self.assertTrue(xx.get_prop_chain_("stuff",1,"blah",raise_missing=True)=="mine")
+        self.assertEquals(xx.get_prop_chain_("test","thing",raise_missing=True),1)
+        self.assertEquals(xx.get_prop_chain_("stuff",1,"blah",raise_missing=True),"mine")
 
 
 
