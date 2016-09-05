@@ -85,7 +85,7 @@ class JSObject(object):
 
     def keys_(self,**kwargs):
         for key in six.iterkeys(self.__dict__,**kwargs):
-            if not key.startswith("_") or not not key.endswith("_"):
+            if not ( key.startswith("_") or key.endswith("_") ):
                 yield key
 
     def values_(self,**kwargs):
