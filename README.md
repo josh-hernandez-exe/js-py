@@ -50,4 +50,14 @@ print(myjso.test.thing) # 1
 print(myjso.stuff) # [5, {'blah': 'mine', 12: 34}, 7, 8, {'rawr': 'ha'}, 0]
 print(myjso.stuff[1]) # {'blah': 'mine', 12: 34}
 print(myjso.stuff[1].blah) # mine
+
+# Iterator functions
+print(list(myjso.keys_())) # ['test', 'other', 'stuff']
+print(list(myjso.values_())) # [{'thing': 1}, 2, [5, {'blah': 'mine', 12: 34}, 7, 8, {'rawr': 'ha'}, 0]]
+print(list(myjso.items_())) # [('test', {'thing': 1}), ('other', 2), ('stuff', [5, {'blah': 'mine', 12: 34}, 7, 8, {'rawr': 'ha'}, 0])]
+
+# Recursive accessor helper function
+print(myjso.get_prop_chain_("stuff",2,"blah")) #
+print(myjso.get_prop_chain_("stuff",1,"blah")) # 'mine'
+
 ```
